@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import productsRouter from "./api/products/index.js"
+import usersRouter from "./api/users/index.js"
 import { badRequestHandler, unauthorizedHandler, forbiddenHandler, catchAllHandler } from "./errorHandlers.js"
 
 const server = express()
@@ -13,6 +14,7 @@ server.use(express.json())
 // ************************************** ENDPOINTS ***************************
 
 server.use("/products", productsRouter)
+server.use("/users", usersRouter)
 
 // *********************************** ERROR HANDLERS *************************
 server.use(badRequestHandler)
