@@ -22,6 +22,7 @@ afterAll(async () => {
 })
 
 const validProduct = {
+
   name: "test",
   description: "bla bla bla",
   price: 10,
@@ -30,6 +31,9 @@ const validProduct = {
 const invalidProduct = {
   name: "Invalid product",
 }
+const validId = "5e8f8f8f8f8f8f8f8f8f8f8"
+const invalidId = ""
+
 
 describe("Testing the server", () => {
   test("Should test that GET /products returns a success status code and a body", async () => {
@@ -46,4 +50,34 @@ describe("Testing the server", () => {
   test("Should test that POST /products returns a valid 400 in case of not valid product", async () => {
     const response = await client.post("/products").send(invalidProduct).expect(400)
   })
+
+  test("should test the GET /products/:id", async () => {
+    const response = await client.get(`/products/${validId}`).response
+    expect(200)
+  })
+  test("should return a 404 when trying to get a product with an invalid id", async () => {
+    const response = await client.get(`/products/invalidId`).response
+    expect(404)
+  })
+  test("should DELETE /products/:id", async () => {
+    const response = await client.delete(`/products/${validId}`)
+    expect(204) 
+  })
+  test("should return a 404 when trying to delete a product with an invalid id", async () => {
+    const response = await client.delete(`/products/invalidId`)
+    expect(404)
+  })
+  test("should PUT /products/:id", async () => {
+    const response = await client.put(`/products/${validId}`).send(validProduct)
+    expect(200)
+  })
+  test("should return a 404 when trying to update a product with an invalid id", async () => {
+    const response = await client.put(`/products/invalidId`).send(validProduct)
+    expect(404)
+  })
+  test("should return a 400 when trying to update a product with invalid data", async () => {
+    const response = await client.put(`/products/${validId}`).send(invalidProduct)
+    expect(400)
+  }
+  )
 })
