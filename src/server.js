@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors"
 import productsRouter from "./api/products/index.js"
+import { badRequestHandler, unauthorizedHandler, forbiddenHandler, catchAllHandler } from "./errorHandlers.js"
 
 const server = express()
 
@@ -14,6 +15,10 @@ server.use(express.json())
 server.use("/products", productsRouter)
 
 // *********************************** ERROR HANDLERS *************************
+server.use(badRequestHandler)
+server.use(unauthorizedHandler)
+server.use(forbiddenHandler)
+server.use(catchAllHandler)
 
 // mongoose.connect(process.env.MONGO_URL)
 
